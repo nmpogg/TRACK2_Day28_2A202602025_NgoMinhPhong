@@ -326,7 +326,7 @@ uv run pytest integration-tests -m "not gpu and not langsmith" -q
 
 | IP | Layer | Owner Role | Điểm nối kỹ thuật | Trạng thái | File Evidence bắt buộc | Định danh & Bằng chứng xác minh |
 |---|---|---|---|---|---|---|
-| **IP01** | L2 Data | Ingestion | HTTP Ingestion → Kafka | **VERIFIED** | `evidence/ip01-kafka-consume.json` | Topic: `data.raw`, Key = `fdbk-3f8a9e2d...`, Header `idempotency-key` và traceparent W3C |
+| **IP01** | L2 Data | Ingestion | HTTP Ingestion → Kafka | **VERIFIED** | `evidence/ip01-kafka-consume.json` | Topic: `data.raw`, Key = `entity_id` (`it-j1-run8492`), Header `idempotency-key` & traceparent mang producer spanID |
 | **IP02** | L2 Data | Ingestion | Kafka → Airflow 3 | **VERIFIED** | `evidence/ip02-airflow-run.json` | DAG Run: `it-run8492`, 4 tasks: `drain_kafka_into_delta`, `refresh_online_features`, etc. |
 | **IP03** | L2 Data | Data/ML | Airflow/Spark → Delta | **VERIFIED** | `evidence/ip03-delta-history.json` | Delta Table `delta_root/feedback`: v4 sau J1 (26 rows), v6 sau J2 (26 rows) |
 | **IP04** | L3 ML | Data/ML | Delta → Feast Store | **VERIFIED** | `evidence/ip04-feast-online.json` | Entity: `it-j1-run8492`, `last_event_ts` = `12:05:00.124590` (occurred_at), Freshness: 3.98s |
@@ -343,9 +343,9 @@ uv run pytest integration-tests -m "not gpu and not langsmith" -q
 [Trace: e3d7a8f1b4c940259e81b67280d94f31 | Parent context: 9f2c4a8b1d6e3f5a]
  ├── lab28.gateway.request (ingest)     (envoy-gateway, parent: 9f2c4a8b1d6e3f5a)
  │    └── lab28.api.ingest              (lab28-api, child of gateway request)
- │         └── lab28.kafka.produce      (lab28-api, child of api.ingest)
+ │         └── lab28.kafka.produce      (lab28-api, spanID: 062fdae6ba1f4ff3, child of api.ingest)
+ │              └── lab28.kafka.consume (lab28-airflow, child of kafka.produce qua header traceparent)
  ├── lab28.airflow.dag                  (lab28-airflow, parent: 9f2c4a8b1d6e3f5a từ conf.traceparent)
- ├── lab28.kafka.consume                (lab28-airflow, parent: 9f2c4a8b1d6e3f5a từ kafka headers)
  ├── lab28.spark.delta_merge            (lab28-airflow, parent: 9f2c4a8b1d6e3f5a từ delta_merge traceparent)
  └── lab28.gateway.request (ask)        (envoy-gateway, parent: 9f2c4a8b1d6e3f5a)
       └── lab28.api.ask                 (lab28-api, child of gateway ask request)
@@ -354,6 +354,7 @@ uv run pytest integration-tests -m "not gpu and not langsmith" -q
            ├── lab28.mlflow.resolve_release    (lab28-api, child of api.ask)
            └── lab28.vllm.chat_completion      (lab28-api, child of api.ask)
 ```
+
 
 
 

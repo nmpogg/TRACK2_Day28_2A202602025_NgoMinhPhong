@@ -33,7 +33,7 @@ Theo thiết kế của nền tảng trong [src/lab28_platform/readiness.py](fil
 
 | IP | Điểm tích hợp | Trách nhiệm | File Evidence | Định danh & Bằng chứng xác minh | Trạng thái |
 |---|---|---|---|---|:---:|
-| **IP01** | HTTP Ingestion → Kafka | Ingestion | `evidence/ip01-kafka-consume.json` | Topic `data.raw`, Key = `idempotency_key` (`fdbk-3f8a9e2d...`), Header `idempotency-key`, W3C traceparent | **VERIFIED** |
+| **IP01** | HTTP Ingestion → Kafka | Ingestion | `evidence/ip01-kafka-consume.json` | Topic `data.raw`, Key = `entity_id` (`it-j1-run8492`), Header `idempotency-key` & traceparent mang producer spanID | **VERIFIED** |
 | **IP02** | Kafka → Airflow 3 | Ingestion | `evidence/ip02-airflow-run.json` | DAG run `it-run8492`, 4 tasks: `drain_kafka_into_delta`, `refresh_online_features`, `index_new_documents`, `announce_processed_batch` | **VERIFIED (Live)** |
 | **IP03** | Airflow/Spark → Delta | Data/ML | `evidence/ip03-delta-history.json` | Table `delta_root/feedback`, commit v4 (sau J1) và v6 (sau J2), MERGE dedupe, Time travel diff | **VERIFIED** |
 | **IP04** | Delta → Feast Store | Data/ML | `evidence/ip04-feast-online.json` | Entity `it-j1-run8492`, `last_event_ts` = occurred_at (`12:05:00.124590`), Freshness: 3.98s | **VERIFIED** |
@@ -75,10 +75,12 @@ Mỗi Journey đều có bằng chứng định danh và trạng thái trước/
 5. **IT-J5 (Trace & Metrics Continuity)** — [evidence/ip10-trace.json](file:///d:/VinUni/LABS/TRACK2_Day28_2A202602025_NgoMinhPhong/evidence/ip10-trace.json):
    - Toàn bộ 11 spans bắt buộc nằm chung Trace ID `e3d7a8f1b4c940259e81b67280d94f31` và liên kết với caller parent span ID `9f2c4a8b1d6e3f5a`.
    - Span hierarchy khớp runtime implementation:
-     - Nhánh Ingest: `gateway.request` (parent `9f2c...`) → `api.ingest` → `kafka.produce`.
-     - Nhánh Ingestion Worker: `airflow.dag` (parent `9f2c...`), `kafka.consume` (parent `9f2c...`), `spark.delta_merge` (parent `9f2c...`) đều mang service `lab28-airflow`.
+     - Nhánh Ingest & Produce: `gateway.request` (parent `9f2c...`) → `api.ingest` → `kafka.produce` (spanID `062f...`).
+     - Nhánh Consumer: `kafka.consume` lấy parent từ Kafka message header (chứa producer spanID `062f...`), tạo thành con trực tiếp của `kafka.produce`.
+     - Nhánh Pipeline: `airflow.dag` và `spark.delta_merge` cùng nhận parent `9f2c...` từ `dag_run.conf.traceparent`.
      - Nhánh Serving: `gateway.request` (parent `9f2c...`) → `api.ask` → 4 sub-spans (`feast`, `qdrant`, `mlflow`, `vllm.chat_completion`) đều mang service `lab28-api`.
    - Ba tiến trình runtime thực tế: `envoy-gateway`, `lab28-api`, `lab28-airflow`.
+
 
 ---
 
