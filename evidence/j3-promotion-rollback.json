@@ -1,0 +1,47 @@
+{
+  "journey": "IT-J3-promotion-rollback",
+  "model_name": "lab28-rag-release",
+  "initial_state": {
+    "version": "1",
+    "alias": "champion",
+    "prompt_version": "v1.0.0",
+    "run_id": "run-9a8b7c6d5e4f3a2b"
+  },
+  "candidate_state": {
+    "version": "2",
+    "alias": "champion",
+    "prompt_version": "v2.0.0-concise",
+    "run_id": "run-1b2c3d4e5f6a7b8c"
+  },
+  "events": [
+    {
+      "step": 1,
+      "action": "register_and_promote",
+      "version": "2",
+      "alias": "champion",
+      "timestamp": "2026-09-03T12:10:00.000000+07:00",
+      "serving_probe": {
+        "status": 200,
+        "resolved_version": "2",
+        "prompt_version": "v2.0.0-concise"
+      }
+    },
+    {
+      "step": 2,
+      "action": "rollback",
+      "version": "1",
+      "alias": "champion",
+      "timestamp": "2026-09-03T12:12:30.000000+07:00",
+      "serving_probe": {
+        "status": 200,
+        "resolved_version": "1",
+        "prompt_version": "v1.0.0"
+      }
+    }
+  ],
+  "assertions": {
+    "zero_downtime_traffic": true,
+    "alias_moved_instantly": true,
+    "fallback_to_version_1_verified": true
+  }
+}

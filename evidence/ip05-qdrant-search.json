@@ -1,0 +1,28 @@
+{
+  "collection": "lab28_documents",
+  "question": "Nền tảng dữ liệu của lab này gồm những thành phần nào?",
+  "points_total": 42,
+  "embedding_model_id": "BAAI/bge-small-en-v1.5@main",
+  "deterministic_point_ids": {
+    "it-j1-doc-run8492": "2917d95a-96e2-5865-8c84-19856962b7d2",
+    "doc-overview-01": "912f0329-5361-56ac-8e3b-ab45e47eed84"
+  },
+  "results": [
+    {
+      "point_id": "2917d95a-96e2-5865-8c84-19856962b7d2",
+      "doc_id": "it-j1-doc-run8492",
+      "title": "Tài liệu kiểm thử tích hợp run8492",
+      "snippet": "Mã tham chiếu run8492 được dùng cho bài kiểm thử tích hợp Day 28: nền tảng ghi phản hồi khách hàng vào Delta Lake, phục vụ đặc trưng qua Feast và truy hồi tài liệu bằng Qdrant.",
+      "score": 0.9124,
+      "retrieval_mode": "hybrid"
+    },
+    {
+      "point_id": "912f0329-5361-56ac-8e3b-ab45e47eed84",
+      "doc_id": "doc-overview-01",
+      "title": "Tổng quan kiến trúc nền tảng Lab 28",
+      "snippet": "Kiến trúc nền tảng RAG hoàn chỉnh kết hợp Lakehouse Delta Lake, Feature Store Feast, Vector Database Qdrant và Serving Engine vLLM.",
+      "score": 0.8412,
+      "retrieval_mode": "hybrid"
+    }
+  ]
+}

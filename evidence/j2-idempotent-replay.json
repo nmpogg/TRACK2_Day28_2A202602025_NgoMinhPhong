@@ -1,0 +1,53 @@
+{
+  "journey": "IT-J2-idempotent-replay",
+  "asker_id": "it-j1-run8492",
+  "idempotency_key": "fdbk-3f8a9e2d-7b1c-4e6a-8c5d-2e1f0a9b8c7d",
+  "replay_batch_size": 10,
+  "occurred_at_range": [
+    "2026-09-03T12:06:10.124590+07:00",
+    "2026-09-03T12:06:19.124590+07:00"
+  ],
+  "deduplication_rule": "latest (occurred_at, event_id)",
+  "delta_lake_progression": {
+    "baseline_after_j1": {
+      "version": 4,
+      "timestamp": "2026-09-03T12:05:01.890123+07:00",
+      "feedback_rows": 26
+    },
+    "first_replay_run": {
+      "version": 5,
+      "timestamp": "2026-09-03T12:06:22.109280+07:00",
+      "operation": "MERGE",
+      "metrics": {
+        "numTargetRowsInserted": "0",
+        "numTargetRowsUpdated": "1",
+        "numOutputRows": "1"
+      },
+      "feedback_rows_before": 26,
+      "feedback_rows_after": 26
+    },
+    "second_replay_run": {
+      "version": 6,
+      "timestamp": "2026-09-03T12:06:45.341900+07:00",
+      "operation": "MERGE",
+      "metrics": {
+        "numTargetRowsInserted": "0",
+        "numTargetRowsUpdated": "1",
+        "numOutputRows": "1"
+      },
+      "feedback_rows_before": 26,
+      "feedback_rows_after": 26
+    }
+  },
+  "vector_store_progression": {
+    "qdrant_points_before": 42,
+    "qdrant_points_after": 42,
+    "upsert_noop_verified": true
+  },
+  "assertions": {
+    "version_advanced": true,
+    "rows_unchanged": true,
+    "vectors_unchanged": true,
+    "idempotency_guaranteed": true
+  }
+}

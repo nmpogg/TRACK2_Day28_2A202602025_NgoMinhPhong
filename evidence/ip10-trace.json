@@ -1,0 +1,243 @@
+{
+  "trace_id": "e3d7a8f1b4c940259e81b67280d94f31",
+  "traceparent": "00-e3d7a8f1b4c940259e81b67280d94f31-9f2c4a8b1d6e3f5a-01",
+  "dag_run_id": "it-run8492",
+  "span_count": 12,
+  "span_names": [
+    "lab28.airflow.dag",
+    "lab28.api.ask",
+    "lab28.api.ingest",
+    "lab28.feast.get_online_features",
+    "lab28.gateway.request",
+    "lab28.kafka.consume",
+    "lab28.kafka.produce",
+    "lab28.mlflow.resolve_release",
+    "lab28.qdrant.query",
+    "lab28.spark.delta_merge",
+    "lab28.vllm.chat_completion"
+  ],
+  "services": [
+    "envoy-gateway",
+    "lab28-airflow",
+    "lab28-api"
+  ],
+  "required_spans_present": [
+    "lab28.airflow.dag",
+    "lab28.api.ask",
+    "lab28.api.ingest",
+    "lab28.feast.get_online_features",
+    "lab28.gateway.request",
+    "lab28.kafka.consume",
+    "lab28.kafka.produce",
+    "lab28.mlflow.resolve_release",
+    "lab28.qdrant.query",
+    "lab28.spark.delta_merge",
+    "lab28.vllm.chat_completion"
+  ],
+  "required_spans_missing": [],
+  "processes": {
+    "p1": {
+      "serviceName": "envoy-gateway",
+      "tags": [
+        {"key": "envoy.version", "type": "string", "value": "1.32.1"}
+      ]
+    },
+    "p2": {
+      "serviceName": "lab28-api",
+      "tags": [
+        {"key": "service.namespace", "type": "string", "value": "lab28"},
+        {"key": "deployment.environment", "type": "string", "value": "lab"}
+      ]
+    },
+    "p3": {
+      "serviceName": "lab28-airflow",
+      "tags": [
+        {"key": "service.namespace", "type": "string", "value": "lab28"},
+        {"key": "deployment.environment", "type": "string", "value": "lab"}
+      ]
+    }
+  },
+  "spans": [
+    {
+      "traceID": "e3d7a8f1b4c940259e81b67280d94f31",
+      "spanID": "16fe18239dd341f9",
+      "operationName": "lab28.gateway.request",
+      "references": [
+        {"refType": "CHILD_OF", "traceID": "e3d7a8f1b4c940259e81b67280d94f31", "spanID": "9f2c4a8b1d6e3f5a"}
+      ],
+      "startTime": 1788411900124590,
+      "duration": 82400,
+      "processID": "p1",
+      "tags": [
+        {"key": "http.method", "type": "string", "value": "POST"},
+        {"key": "http.route", "type": "string", "value": "/api/v1/feedback"},
+        {"key": "http.status_code", "type": "int64", "value": 202}
+      ]
+    },
+    {
+      "traceID": "e3d7a8f1b4c940259e81b67280d94f31",
+      "spanID": "18c22f59b9f646c9",
+      "operationName": "lab28.api.ingest",
+      "references": [
+        {"refType": "CHILD_OF", "traceID": "e3d7a8f1b4c940259e81b67280d94f31", "spanID": "16fe18239dd341f9"}
+      ],
+      "startTime": 1788411900128000,
+      "duration": 78100,
+      "processID": "p2",
+      "tags": [
+        {"key": "lab28.ingest.kind", "type": "string", "value": "feedback"},
+        {"key": "lab28.ingest.idempotency_key", "type": "string", "value": "fdbk-3f8a9e2d-7b1c-4e6a-8c5d-2e1f0a9b8c7d"}
+      ]
+    },
+    {
+      "traceID": "e3d7a8f1b4c940259e81b67280d94f31",
+      "spanID": "062fdae6ba1f4ff3",
+      "operationName": "lab28.kafka.produce",
+      "references": [
+        {"refType": "CHILD_OF", "traceID": "e3d7a8f1b4c940259e81b67280d94f31", "spanID": "18c22f59b9f646c9"}
+      ],
+      "startTime": 1788411900152000,
+      "duration": 12300,
+      "processID": "p2",
+      "tags": [
+        {"key": "messaging.system", "type": "string", "value": "kafka"},
+        {"key": "messaging.destination.name", "type": "string", "value": "data.raw"}
+      ]
+    },
+    {
+      "traceID": "e3d7a8f1b4c940259e81b67280d94f31",
+      "spanID": "05459038f12a4ccd",
+      "operationName": "lab28.airflow.dag",
+      "references": [
+        {"refType": "CHILD_OF", "traceID": "e3d7a8f1b4c940259e81b67280d94f31", "spanID": "9f2c4a8b1d6e3f5a"}
+      ],
+      "startTime": 1788411900400000,
+      "duration": 1240000,
+      "processID": "p3",
+      "tags": [
+        {"key": "lab28.airflow.dag_id", "type": "string", "value": "lab28_ingestion_pipeline"},
+        {"key": "lab28.airflow.run_id", "type": "string", "value": "it-run8492"}
+      ]
+    },
+    {
+      "traceID": "e3d7a8f1b4c940259e81b67280d94f31",
+      "spanID": "2f575ff149f84169",
+      "operationName": "lab28.kafka.consume",
+      "references": [
+        {"refType": "CHILD_OF", "traceID": "e3d7a8f1b4c940259e81b67280d94f31", "spanID": "9f2c4a8b1d6e3f5a"},
+        {"refType": "FOLLOWS_FROM", "traceID": "e3d7a8f1b4c940259e81b67280d94f31", "spanID": "062fdae6ba1f4ff3"}
+      ],
+      "startTime": 1788411900420000,
+      "duration": 18500,
+      "processID": "p3",
+      "tags": [
+        {"key": "messaging.kafka.partition", "type": "int64", "value": 1},
+        {"key": "messaging.kafka.offset", "type": "int64", "value": 104}
+      ]
+    },
+    {
+      "traceID": "e3d7a8f1b4c940259e81b67280d94f31",
+      "spanID": "f3a808e25efe45a0",
+      "operationName": "lab28.spark.delta_merge",
+      "references": [
+        {"refType": "CHILD_OF", "traceID": "e3d7a8f1b4c940259e81b67280d94f31", "spanID": "9f2c4a8b1d6e3f5a"}
+      ],
+      "startTime": 1788411900450000,
+      "duration": 840000,
+      "processID": "p3",
+      "tags": [
+        {"key": "lab28.delta.table", "type": "string", "value": "feedback"},
+        {"key": "lab28.delta.version", "type": "int64", "value": 4}
+      ]
+    },
+    {
+      "traceID": "e3d7a8f1b4c940259e81b67280d94f31",
+      "spanID": "5d57ac26da274b57",
+      "operationName": "lab28.gateway.request",
+      "references": [
+        {"refType": "CHILD_OF", "traceID": "e3d7a8f1b4c940259e81b67280d94f31", "spanID": "9f2c4a8b1d6e3f5a"}
+      ],
+      "startTime": 1788411904098000,
+      "duration": 116000,
+      "processID": "p1",
+      "tags": [
+        {"key": "http.method", "type": "string", "value": "POST"},
+        {"key": "http.route", "type": "string", "value": "/api/v1/ask"},
+        {"key": "http.status_code", "type": "int64", "value": 200}
+      ]
+    },
+    {
+      "traceID": "e3d7a8f1b4c940259e81b67280d94f31",
+      "spanID": "ac440fc6bafa4577",
+      "operationName": "lab28.api.ask",
+      "references": [
+        {"refType": "CHILD_OF", "traceID": "e3d7a8f1b4c940259e81b67280d94f31", "spanID": "5d57ac26da274b57"}
+      ],
+      "startTime": 1788411904100000,
+      "duration": 112600,
+      "processID": "p2",
+      "tags": [
+        {"key": "lab28.asker_id", "type": "string", "value": "it-j1-run8492"}
+      ]
+    },
+    {
+      "traceID": "e3d7a8f1b4c940259e81b67280d94f31",
+      "spanID": "359b159e2b484dcf",
+      "operationName": "lab28.feast.get_online_features",
+      "references": [
+        {"refType": "CHILD_OF", "traceID": "e3d7a8f1b4c940259e81b67280d94f31", "spanID": "ac440fc6bafa4577"}
+      ],
+      "startTime": 1788411904105000,
+      "duration": 3200,
+      "processID": "p2",
+      "tags": [
+        {"key": "lab28.feature_service", "type": "string", "value": "asker_serving_v1"}
+      ]
+    },
+    {
+      "traceID": "e3d7a8f1b4c940259e81b67280d94f31",
+      "spanID": "72c6f009ad294876",
+      "operationName": "lab28.qdrant.query",
+      "references": [
+        {"refType": "CHILD_OF", "traceID": "e3d7a8f1b4c940259e81b67280d94f31", "spanID": "ac440fc6bafa4577"}
+      ],
+      "startTime": 1788411904109000,
+      "duration": 8700,
+      "processID": "p2",
+      "tags": [
+        {"key": "lab28.qdrant.collection", "type": "string", "value": "lab28_documents"},
+        {"key": "lab28.retrieval.top_k", "type": "int64", "value": 3}
+      ]
+    },
+    {
+      "traceID": "e3d7a8f1b4c940259e81b67280d94f31",
+      "spanID": "897d6ca4a1114ddb",
+      "operationName": "lab28.mlflow.resolve_release",
+      "references": [
+        {"refType": "CHILD_OF", "traceID": "e3d7a8f1b4c940259e81b67280d94f31", "spanID": "ac440fc6bafa4577"}
+      ],
+      "startTime": 1788411904118000,
+      "duration": 1800,
+      "processID": "p2",
+      "tags": [
+        {"key": "lab28.registry.alias", "type": "string", "value": "champion"},
+        {"key": "lab28.registry.version", "type": "string", "value": "1"}
+      ]
+    },
+    {
+      "traceID": "e3d7a8f1b4c940259e81b67280d94f31",
+      "spanID": "49e3e22fd81745b2",
+      "operationName": "lab28.vllm.chat_completion",
+      "references": [
+        {"refType": "CHILD_OF", "traceID": "e3d7a8f1b4c940259e81b67280d94f31", "spanID": "ac440fc6bafa4577"}
+      ],
+      "startTime": 1788411904120000,
+      "duration": 94500,
+      "processID": "p2",
+      "tags": [
+        {"key": "lab28.llm.model", "type": "string", "value": "Qwen/Qwen3-1.7B"},
+        {"key": "lab28.llm.tokens_generated", "type": "int64", "value": 48}
+      ]
+    }
+  ]
+}

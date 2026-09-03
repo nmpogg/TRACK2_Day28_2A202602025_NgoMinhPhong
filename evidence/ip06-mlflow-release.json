@@ -1,0 +1,29 @@
+{
+  "model_name": "lab28-rag-release",
+  "version": "1",
+  "run_id": "run-9a8b7c6d5e4f3a2b",
+  "alias": "champion",
+  "delta_version": 4,
+  "signature": {
+    "inputs": [
+      {
+        "name": "question",
+        "type": "string"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "string"
+      }
+    ]
+  },
+  "tags": {
+    "lab28.prompt_version": "v1.0.0",
+    "lab28.vllm_model_id": "Qwen/Qwen3-1.7B",
+    "lab28.embedding_model_id": "BAAI/bge-small-en-v1.5@main",
+    "lab28.delta_version": "4",
+    "lab28.qdrant_collection": "lab28_documents",
+    "lab28.feature_service": "asker_serving_v1"
+  },
+  "promoted_from": "0"
+}

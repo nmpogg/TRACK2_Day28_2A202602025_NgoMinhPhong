@@ -1,0 +1,57 @@
+{
+  "journey": "IT-J4-degraded-recovery",
+  "fault_injected": "stop_feast_container",
+  "timeline": [
+    {
+      "time": "T0 (12:15:00)",
+      "phase": "baseline",
+      "readiness_status": "ready",
+      "ask_response": {
+        "status": 200,
+        "degraded": false,
+        "asker_rating": 5.0
+      },
+      "feedback_rows": 26,
+      "kafka_consumer_lag": 0
+    },
+    {
+      "time": "T1 (12:16:00)",
+      "phase": "fault_injection",
+      "action": "docker compose stop feast",
+      "readiness_status": "degraded",
+      "readiness_detail": "feature_store: unreachable",
+      "ask_response": {
+        "status": 200,
+        "degraded": true,
+        "fallback_used": true
+      },
+      "feedback_rows": 26,
+      "kafka_consumer_lag": 0
+    },
+    {
+      "time": "T2 (12:17:30)",
+      "phase": "restoration",
+      "action": "docker compose start feast",
+      "readiness_status": "ready",
+      "readiness_detail": "feature service 'asker_serving_v1' active; online store reachable"
+    },
+    {
+      "time": "T3 (12:18:00)",
+      "phase": "verified_recovery",
+      "readiness_status": "ready",
+      "ask_response": {
+        "status": 200,
+        "degraded": false,
+        "asker_rating": 5.0
+      },
+      "feedback_rows": 26,
+      "kafka_consumer_lag": 0
+    }
+  ],
+  "assertions": {
+    "serving_available_during_outage": true,
+    "degraded_flag_set": true,
+    "delta_lake_rows_preserved": true,
+    "zero_data_loss": true
+  }
+}

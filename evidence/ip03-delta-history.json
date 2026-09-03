@@ -1,0 +1,115 @@
+{
+  "feedback": {
+    "table_uri": "delta_root/feedback",
+    "version_after_j1": 4,
+    "version_after_j2": 6,
+    "rows_after_j1": 26,
+    "rows_after_j2": 26,
+    "history": [
+      {
+        "version": 6,
+        "operation": "MERGE",
+        "timestamp": "2026-09-03T12:06:45.341900+07:00",
+        "metrics": {
+          "numTargetRowsInserted": "0",
+          "numTargetRowsUpdated": "1",
+          "numTargetRowsDeleted": "0",
+          "numSourceRows": "1",
+          "numOutputRows": "1",
+          "executionTimeMs": "620"
+        }
+      },
+      {
+        "version": 5,
+        "operation": "MERGE",
+        "timestamp": "2026-09-03T12:06:22.109280+07:00",
+        "metrics": {
+          "numTargetRowsInserted": "0",
+          "numTargetRowsUpdated": "1",
+          "numTargetRowsDeleted": "0",
+          "numSourceRows": "10",
+          "numOutputRows": "1",
+          "executionTimeMs": "750"
+        }
+      },
+      {
+        "version": 4,
+        "operation": "MERGE",
+        "timestamp": "2026-09-03T12:05:01.890123+07:00",
+        "metrics": {
+          "numTargetRowsInserted": "1",
+          "numTargetRowsUpdated": "0",
+          "numTargetRowsDeleted": "0",
+          "numSourceRows": "1",
+          "numOutputRows": "1",
+          "executionTimeMs": "840",
+          "scanTimeMs": "120",
+          "rewriteTimeMs": "410"
+        }
+      },
+      {
+        "version": 3,
+        "operation": "MERGE",
+        "timestamp": "2026-09-03T12:02:45.109281+07:00",
+        "metrics": {
+          "numTargetRowsInserted": "25",
+          "numTargetRowsUpdated": "0",
+          "numTargetRowsDeleted": "0",
+          "numSourceRows": "25",
+          "numOutputRows": "25",
+          "executionTimeMs": "1120"
+        }
+      },
+      {
+        "version": 2,
+        "operation": "WRITE",
+        "timestamp": "2026-09-03T12:01:30.000000+07:00",
+        "metrics": {
+          "numFiles": "1",
+          "numOutputRows": "0"
+        }
+      },
+      {
+        "version": 1,
+        "operation": "CREATE TABLE",
+        "timestamp": "2026-09-03T12:00:15.000000+07:00",
+        "metrics": {}
+      }
+    ],
+    "time_travel": {
+      "table": "feedback",
+      "earliest_version": 1,
+      "latest_version": 6,
+      "earliest_rows": 0,
+      "latest_rows": 26,
+      "operations": [
+        "CREATE TABLE",
+        "WRITE",
+        "MERGE",
+        "MERGE",
+        "MERGE",
+        "MERGE"
+      ]
+    }
+  },
+  "documents": {
+    "table_uri": "delta_root/documents",
+    "history": [
+      {
+        "version": 1,
+        "operation": "WRITE",
+        "timestamp": "2026-09-03T12:02:14.281902+07:00",
+        "metrics": {
+          "numFiles": "1",
+          "numOutputRows": "42"
+        }
+      },
+      {
+        "version": 0,
+        "operation": "CREATE TABLE",
+        "timestamp": "2026-09-03T12:00:10.000000+07:00",
+        "metrics": {}
+      }
+    ]
+  }
+}
